@@ -3,9 +3,17 @@
  <head>
   <meta charset="UTF-8">
  
-  <title>회원 가입</title>
+  <title>로그인했음</title>
  </head>
  <body>
+     <h1>
+          어서오세요. <%= session.user.name %> 님
+      </h1>
+      <% if(messages.error) { %>
+      <script>
+          alert('<%= messages.error %> ');
+      </script>
+      <% } %>
     <form name="write_form_member" method="get" action="/logout">
          <input type="submit" name="submit-button" value="로그아웃">
     </form>
