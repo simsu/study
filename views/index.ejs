@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
 <body>
+    <audio controls autoplay loop>
+        <source src='popsong.mp3'>
+    </audio>
     <% if(messages.error) { %>
         <script>
             alert('<%= messages.error %> ');
@@ -11,5 +16,6 @@
     <a href="/register">회원가입</a>
     <a href="/login">로그인</a>
 </body>
-</head>
+
+  </script>
 </html>
