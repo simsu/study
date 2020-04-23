@@ -81,11 +81,19 @@ router
     }
     return res.redirect("login");
   })
+  .get("/board/:id", async(req, res) => {
+    const board = await db.board.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    return res.render("view", {board});
+  })
   .get("/write", (req, res) => {
-    if (req.session.user) {
+    if (req.session.user != null) {
       res.render("write");
     }
-    res.redirect("login");
+    else res.redirect("login");
   })
   .post("/write", upload.single("file"), async (req, res) => {
     try {
@@ -102,6 +110,15 @@ router
       console.log(req.session.user.user);
       return res.send('<script>alert("실패");location.href="/";</script>');
     }
-  });
+  })
+  .get("/delete:id", async (req, res) => {
+    const board = await db.board.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    console.log("삭제");
+    return res.redirect("list");
+  })
 
 module.exports = router;

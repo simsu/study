@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="toolbar.css">
+  <link rel="stylesheet" type="text/css" href="../toolbar.css">
   <title>홈이다.</title>
  </head>
  <body>
@@ -17,7 +17,7 @@
         <!---------------- toolbar start ---------------->
         <% if(session.user) { %>
             <div class="topnav">
-                <a href="/"><img class="logo" src="logo.png"></a>
+                <a href="/"><img class="logo" src="../logo.png"></a>
                 <h1 class="user-desr">
                         어서오세요. <%= session.user.name %> 님
                 </h1>
@@ -27,16 +27,14 @@
                     </script>
                 <% } %>
                 <div class="form-wrapper">
-                    <form class="form-write" name="write_form_member" method="get" action="/write">
-                        <input class="button-tag" type="submit" name="submit-button" value="글쓰기">
-                    </form>
+                    <button class="form-write button-tag" onclick="deleteArticle()">글 삭제</button>
                     <button class="form-write button-tag" onclick="logout()">로그아웃</button>
                 </div>
             </div>
         <% } %>
         <% if(!session.user) { %>
             <div class="topnav">
-                <a href=""><img class="logo" src="logo.png"></a>
+                <a href=""><img class="logo" src="../logo.png"></a>
                 <h1 class="user-desr">
                         어서오세요. 게스트 님
                 </h1>
@@ -55,44 +53,15 @@
         <% } %>
         <!---------------- toolbar end ---------------->
         <div class="main-t">
-            <% if (session.user) { %>
-                <% for (const item of items) { %>
-                    <a href="/board/<%= item.id %>">
-                        <div class="container">
-                            <img class="article-list-img" src="<%= item.imgFakeName %>">
-                            <span class="article-list-text">
-                                <h3><%= item.title %></h3>
-                                <p>
-                                <%- item.content %>
-                                </p>
-                            </span>
-                        </div>
-                    </a>
-                <% } %>
+            <% if(session.user) { %>
+                <div>
+                    <p class="board-title"><%= board.title %></p>
+                    <p><img class="article-img" src="../<%= board.imgFakeName %>"></p>
+                    <p class="content-write"><%- board.content %></p>
+                </div>
+                
             <% } %>
             <!-- <div class="container">
-                <img class="article-list-img" src="logo.png">
-                <span class="article-list-text">
-                    <h1>글 제목 </h1>
-                    <p>
-                       글내용 Ea laborum quae esse enim totam similique ex saepe porro? 
-                        <br>
-                        Ab eius inventore distinctio quia veritatis aspernatur in sint maxime amet est.    
-                    </p>
-                </span>
-            </div>
-            <div class="container">
-                <img class="article-list-img" src="logo.png">
-                <span class="article-list-text">
-                    <h1>글 제목 </h1>
-                    <p>
-                       글내용 Ea laborum quae esse enim totam similique ex saepe porro? 
-                        <br>
-                        Ab eius inventore distinctio quia veritatis aspernatur in sint maxime amet est.    
-                    </p>
-                </span>
-            </div>
-            <div class="container">
                 <img class="article-list-img" src="logo.png">
                 <span class="article-list-text">
                     <h1>글 제목 </h1>
@@ -109,11 +78,17 @@
           </footer>
     </body>
     <script>
+        function deleteArticle() {
+            const ask = confirm("정말 삭제하시겠습니까?");
+            if(ask == true){
+                location.href = "../delete<%= board.id %>";
+            }
+        }
         function login() {
         location.href = "login";
         }
         function logout() {
-        location.href = "logout";
+        location.href = "../logout";
         }
         </script>
     </html>
