@@ -1,9 +1,13 @@
 const router = require("express").Router();
+const axios = require("axios");
 var bcrypt = require("bcrypt");
 var multer = require("multer");
 const path = require("path");
 const db = require("../models");
 const auth = require("../libs/auth");
+
+
+var data = {count:0};
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -18,6 +22,10 @@ var upload = multer({ storage: storage })
 router
   .get("/", (req, res) => {
     res.render("home");
+  })
+  .get("/count", (req, res) => {
+    data.count ++;
+    res.render("count", data);
   })
   .get("/register", (req, res) => {
     res.render("register");
@@ -75,7 +83,10 @@ router
       items = await db.board.findAll({
         where: {
           userId: req.session.user.name
-        }
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ]
       });
       return res.render("list", { items });
     }
@@ -110,6 +121,14 @@ router
       console.log(req.session.user.user);
       return res.send('<script>alert("실패");location.href="/";</script>');
     }
+  })
+  .get("/update/:id", async(req, res) => {
+    const board = await db.board.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    return res.redirect("write", {board})
   })
   .get("/delete:id", async (req, res) => {
     const board = await db.board.destroy({

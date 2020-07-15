@@ -25,7 +25,6 @@ app.use(session({
 
 app.use((req, res, next) => {
   res.locals.session = req.session;
-  //throw error('error'); // css-tricks //javascript info //regex //vim
   next();
 })
 

@@ -28,7 +28,7 @@
                 <% } %>
                 <div class="form-wrapper">
                     <button class="form-write button-tag" onclick="deleteArticle()">글 삭제</button>
-                    <button class="form-write button-tag" onclick="logout()">로그아웃</button>
+                    <button class="form-write button-tag" onclick="modifyArticle()">글 수정</button>
                 </div>
             </div>
         <% } %>
@@ -84,11 +84,8 @@
                 location.href = "../delete<%= board.id %>";
             }
         }
-        function login() {
-        location.href = "login";
-        }
-        function logout() {
-        location.href = "../logout";
+        function modifyArticle() {
+        location.href = "../update/<%= board.id %>";
         }
         </script>
     </html>
