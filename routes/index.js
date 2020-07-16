@@ -88,16 +88,24 @@ router
           ['createdAt', 'DESC']
         ]
       });
+      if(items){
+        items.forEach(e => {
+          console.log(e);
+          e.imgFakeName = e.imgFakeName.split(';')[0];
+        });
+      }
       return res.render("list", { items });
     }
     return res.redirect("login");
   })
   .get("/board/:id", async(req, res) => {
-    const board = await db.board.findOne({
+    var board = await db.board.findOne({
       where: {
         id: req.params.id
       }
-    })
+    });
+    var file = board.imgFakeName.split(';');
+    board.imgFakeName = file;
     return res.render("view", {board});
   })
   .get("/write", (req, res) => {
@@ -106,14 +114,21 @@ router
     }
     else res.redirect("login");
   })
-  .post("/write", upload.single("file"), async (req, res) => {
+  .post("/write", upload.array("file", 10), async (req, res) => {
+    var rName = "";
+    var fName = "";
+    req.files.forEach(e => {
+      rName += e.originalname + ";";
+      fName += e.filename + ";";
+    });
     try {
-        await db.board.create({
-        title: req.body.title,
-        content: req.body.content,
-        userId: req.session.user.name,
-        imgRealName: req.file.originalname,
-        imgFakeName: req.file.filename
+      console.log(req.files);
+      await db.board.create({
+      title: req.body.title,
+      content: req.body.content,
+      userId: req.session.user.name,
+      imgRealName: rName,
+      imgFakeName: fName
       });
       return res.redirect("/");
     } catch (e) {

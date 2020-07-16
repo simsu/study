@@ -56,22 +56,13 @@
             <% if(session.user) { %>
                 <div>
                     <p class="board-title"><%= board.title %></p>
-                    <p><img class="article-img" src="../<%= board.imgFakeName %>"></p>
+                    <% board.imgFakeName.forEach(e => { %>
+                        <p><img class="article-img" src="../<%= e %>"></p>
+                    <% }); %>
                     <p class="content-write"><%- board.content %></p>
                 </div>
                 
             <% } %>
-            <!-- <div class="container">
-                <img class="article-list-img" src="logo.png">
-                <span class="article-list-text">
-                    <h1>글 제목 </h1>
-                    <p>
-                       글내용 Ea laborum quae esse enim totam similique ex saepe porro? 
-                        <br>
-                        Ab eius inventore distinctio quia veritatis aspernatur in sint maxime amet est.    
-                    </p>
-                </span>
-            </div> -->
         </div>
         <footer class="footer">
             footer
